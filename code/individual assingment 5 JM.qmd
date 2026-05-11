@@ -268,7 +268,9 @@ ostracod_plot
 salinity / copepods_plot / ostracod_plot
 ```
 
+### e. Interpretation of the figure
 
+The abundance of copepods north and south of Venoco Bridge and at Phelps Road is higher than the abundance of ostracods, the abundance of each is similar in the Main Channel, south of Phelps Bridge, north of Phelps Bridge, and at Devereux creek. There does not seem to be a strong correlation between of the copepods and ostracods with the salinity.
 
 
 
