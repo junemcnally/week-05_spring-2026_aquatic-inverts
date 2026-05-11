@@ -156,7 +156,55 @@ aq_ins_clean <- aq_ins |>
   mutate(site_full = fct_reorder(site_full, med_sal, .fun = "median", .na_rm = TRUE),
          site_full = fct_rev(site_full))
 ```
- 
+
+```{r}
+#| label: copepod-cleaning
+
+# creating new object from clean aquatic inverts 
+copepods <- aq_ins_clean |> 
+  # filter to only include copepods
+  filter(taxon == "copepod") |> 
+  # log + 1 transform mean abundance per liter
+  mutate(log_ave_lit = log(ave_lit + 1)) 
+```
+
+```{r}
+#| label: visualizing-copepods
+
+copepods_plot <- ggplot(data = copepods,
+                   mapping = aes(x = site_full, y = log_ave_lit)) +
+  geom_jitter(height = 0, shape = 21, width = 0.1) +
+  stat_summary(geom = "point", fun = "median", size = 3, color = "blue") +
+  scale_x_discrete(labels = label_wrap(15)) +
+  labs(x = "Site", y = "log + 1 transformed average abundance/L", title = "Copepods") +
+  theme_bw()
+
+copepods_plot
+```
+
+```{r}
+#| label: visualizing-salinity
+#| fig-width: 8
+#| fig-height: 6
+
+salinity <- ggplot(data = aq_ins_clean,
+       mapping = aes(x = site_full,
+                     y = med_sal)) +
+  geom_jitter(height = 0,
+              width = 0.1,
+              shape = 21) +
+  scale_x_discrete(labels = label_wrap(width = 15)) +
+  stat_summary(fun = median,
+               color = "red",
+               size = 0.5) +
+  labs(x = "Site",
+       y = "Median salinity (ppt)",
+       title = "Site salinity") +
+  theme_bw()
+
+salinity
+```
+
  
 # Problems
 
@@ -178,6 +226,48 @@ ostracods <- aq_ins_clean |>
 
 slice_sample(ostracods, n = 10)
 ```
+
+### c. Coding figure
+
+```{r}
+#| label: visualizing-ostracods
+#| fig-width: 10
+#| fig-height: 6
+
+ostracod_plot <- ggplot(data = ostracods,
+                   mapping = aes(x = site_full,
+                                 y = log_ave_lit)) +
+  # small open circles for individual measurements
+  geom_jitter(height = 0,
+              shape = 21,
+              width = 0.1) +
+  # blue filled point for median
+  stat_summary(geom = "point",
+               fun = "median",
+               size = 3,
+               color = "blue") +
+  # wrap long site names
+  scale_x_discrete(labels = label_wrap(15)) +
+  # labels
+  labs(x = "Site",
+       y = "log + 1 transformed average abundance/L",
+       title = "Ostracods") +
+  # same theme as key
+  theme_bw()
+
+ostracod_plot
+```
+
+### d. Adding ostracod panel
+
+```{r}
+#| label: multipanel-figure
+#| fig-width: 10
+#| fig-height: 14
+
+salinity / copepods_plot / ostracod_plot
+```
+
 
 
 
