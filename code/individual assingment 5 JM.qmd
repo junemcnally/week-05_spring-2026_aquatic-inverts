@@ -272,11 +272,65 @@ salinity / copepods_plot / ostracod_plot
 
 The abundance of copepods north and south of Venoco Bridge and at Phelps Road is higher than the abundance of ostracods, the abundance of each is similar in the Main Channel, south of Phelps Bridge, north of Phelps Bridge, and at Devereux creek. There does not seem to be a strong correlation between of the copepods and ostracods with the salinity.
 
+## 2. 
+
+### a. 
+
+- X axis: salinity (med_sal)
+- Y-axis: log transformed average abundance/L (log_ave_lit)
+- color: taxon
+- geometry: geom_point()
+- facets: facet_wrap(~taxon, scales = "free"), aq_ins_clean
 
 
+### b. Wrangle data
 
+```{r}
+#| label: abundance-salinity-wrangling
 
+abundance_salinity <- aq_ins_clean |> 
+  # log + 1 transform average abundance per liter
+  mutate(log_ave_lit = log(ave_lit + 1)) |> 
+  # convert taxon to title case
+  mutate(taxon = str_to_title(taxon)) |> 
+  # order taxon levels by maximum abundance
+  mutate(taxon = fct_reorder(taxon, ave_lit, .fun = "max"))
 
+# display 10 random rows
+slice_sample(abundance_salinity, n = 10)
+```
+
+### c. 
+
+```{r}
+#| label: visualizing-abundance-salinity
+#| fig-width: 12
+#| fig-height: 10
+
+abundance_salinity_plot <- ggplot(data = abundance_salinity,
+                                  mapping = aes(x = med_sal,
+                                                y = log_ave_lit,
+                                                color = taxon)) +
+  # points for each observation
+  geom_point() +
+  # separate panel for each taxon with free scales
+  facet_wrap(~taxon, scales = "free") +
+  # readable axis labels
+  labs(x = "Salinity (ppt)",
+       y = "log + 1 transformed average abundance/L") +
+  # different theme
+  theme_bw() +
+  # different colors
+  scale_color_viridis_d() +
+  # remove legend
+  theme(legend.position = "none")
+
+abundance_salinity_plot
+```
+
+### d. Interpreting figure
+
+Nematodes spike about a salinity of 5ppt but stay around 0 for every other salinity value; a similar pattern is seen in the annelida oligochaete where is spikes at arond 5ppt and 45ppt but is around 0 for every other value. Diptera ceratopogonidae has spikes around 5-10ppt and 30-50ppt. Cladocera is much more abundant at lower salinities ranging from 1-10ppt. The copepod graoh seems a bit more random/scattered but has higher abundance from 1-10ppt anf around 40ppt.
 
 
 
