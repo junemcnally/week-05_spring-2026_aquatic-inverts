@@ -77,6 +77,7 @@ taxon_list_clean <- taxon_list |>
   # only underscores)
   mutate(verbatim_name = to_any_case(verbatim_name, case = "snake"))
 ```
+
 ```{r}
 #| label: water-quality-cleaning
 
@@ -156,3 +157,34 @@ aq_ins_clean <- aq_ins |>
          site_full = fct_rev(site_full))
 ```
  
+ 
+# Problems
+
+## 1. Visualizing differences across sites in major taxon abundance
+
+### a. Planning figure
+
+-X axis: site (site_full)
+-Y axis: ostracod abundance (log + 1 transform)
+-geometry to represent average abundance/L: geom_jitter()
+-geometry to represent medians: stat_summary()
+
+### b. Wrangle data
+
+```{r}
+ostracods <- aq_ins_clean |> 
+  filter(taxon == "ostracod") |> 
+  mutate(log_ave_lit = log(ave_lit + 1))
+
+slice_sample(ostracods, n = 10)
+```
+
+
+
+
+
+
+
+
+
+
