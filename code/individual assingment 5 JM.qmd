@@ -212,18 +212,20 @@ salinity
 
 ### a. Planning figure
 
--X axis: site (site_full)
--Y axis: ostracod abundance (log + 1 transform)
--geometry to represent average abundance/L: geom_jitter()
--geometry to represent medians: stat_summary()
+- X axis: site (site_full)
+- Y axis: ostracod abundance (log + 1 transform)
+- geometry to represent average abundance/L: geom_jitter()
+- geometry to represent medians: stat_summary()
 
 ### b. Wrangle data
 
 ```{r}
 ostracods <- aq_ins_clean |> 
+  # filtering to only include ostracod species
   filter(taxon == "ostracod") |> 
+  # transform mean abundance per liter
   mutate(log_ave_lit = log(ave_lit + 1))
-
+# show random sample of 10
 slice_sample(ostracods, n = 10)
 ```
 
@@ -265,7 +267,7 @@ ostracod_plot
 #| fig-width: 10
 #| fig-height: 14
 
-salinity / copepods_plot / ostracod_plot
+salinity / (copepods_plot | ostracod_plot)
 ```
 
 ### e. Interpretation of the figure
