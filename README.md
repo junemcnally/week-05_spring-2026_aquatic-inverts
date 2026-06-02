@@ -31,9 +31,6 @@ library(patchwork)
 └── week-05_spring-2026_aquatic-inverts.Rproj
 ```
 
-## Rendered output
+## Rendered Output
 
-The rendered key for the code in this repository is here (add link when ready).
-[Week 05 Assignment PDF](file:///Users/june_1/Downloads/individual-assingment-5-JM%20(2).pdf)
-
-The rendered document from class is here (file:///Users/june_1/Downloads/individual-assingment-5-JM%20(2).pdf).
+- [Assignment](https://github.com/junemcnally/week-05_spring-2026_aquatic-inverts/blob/main/code/individual-assingment-5-JM.pdf)
