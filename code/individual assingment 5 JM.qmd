@@ -1,5 +1,5 @@
 ---
-title: "Individual Assingment 5 JM"
+title: "Individual Assignment 5 JM"
 author: June McNally
 date: 2026-05-10
 format: pdf
@@ -14,7 +14,7 @@ execute:
 
 ```{r}
 #| label: packages
-# geberal and cleaning
+# general and cleaning
 library(tidyverse)
 library(here)
 library(janitor)
@@ -171,13 +171,13 @@ copepods <- aq_ins_clean |>
 ```{r}
 #| label: visualizing-copepods
 
-copepods_plot <- ggplot(data = copepods,
-                   mapping = aes(x = site_full, y = log_ave_lit)) +
+copepods_plot <- ggplot(data = copepods, mapping = aes(x = site_full, y = log_ave_lit)) +
   geom_jitter(height = 0, shape = 21, width = 0.1) +
   stat_summary(geom = "point", fun = "median", size = 3, color = "blue") +
   scale_x_discrete(labels = label_wrap(15)) +
   labs(x = "Site", y = "log + 1 transformed average abundance/L", title = "Copepods") +
-  theme_bw()
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 copepods_plot
 ```
@@ -204,7 +204,6 @@ salinity <- ggplot(data = aq_ins_clean,
 
 salinity
 ```
-
  
 # Problems
 
@@ -236,26 +235,13 @@ slice_sample(ostracods, n = 10)
 #| fig-width: 10
 #| fig-height: 6
 
-ostracod_plot <- ggplot(data = ostracods,
-                   mapping = aes(x = site_full,
-                                 y = log_ave_lit)) +
-  # small open circles for individual measurements
-  geom_jitter(height = 0,
-              shape = 21,
-              width = 0.1) +
-  # blue filled point for median
-  stat_summary(geom = "point",
-               fun = "median",
-               size = 3,
-               color = "blue") +
-  # wrap long site names
+ostracod_plot <- ggplot(data = ostracods, mapping = aes(x = site_full, y = log_ave_lit)) +
+  geom_jitter(height = 0, shape = 21, width = 0.1) +
+  stat_summary(geom = "point", fun = "median", size = 3, color = "blue") +
   scale_x_discrete(labels = label_wrap(15)) +
-  # labels
-  labs(x = "Site",
-       y = "log + 1 transformed average abundance/L",
-       title = "Ostracods") +
-  # same theme as key
-  theme_bw()
+  labs(x = "Site", y = "log + 1 transformed average abundance/L", title = "Ostracods") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ostracod_plot
 ```
